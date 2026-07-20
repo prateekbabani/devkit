@@ -1,0 +1,19 @@
+[project]
+name = "gitroast"
+version = "0.1.0"
+description = "AI that roasts your git commits and diffs"
+requires-python = ">=3.10"
+dependencies = [
+    "typer",
+    "openai",
+    "python-dotenv",
+    "rich",
+]
+
+[project.scripts]
+gitroast = "gitroast.main:app"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
