@@ -1,0 +1,19 @@
+[project]
+name = "devask"
+version = "0.1.0"
+description = "Ask questions about any codebase - RAG-powered CLI"
+requires-python = ">=3.10"
+dependencies = [
+    "typer",
+    "openai",
+    "python-dotenv",
+    "rich",
+    "numpy",
+]
+
+[project.scripts]
+devask = "devask.main:app"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
