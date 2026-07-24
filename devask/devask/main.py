@@ -2,7 +2,7 @@ import typer
 from rich.console import Console
 
 from devask import scanner
-from devask.devask import chunker
+from devask import chunker
 
 app = typer.Typer()
 console = Console()
