@@ -1,12 +1,10 @@
 import typer
 from rich.console import Console
+from devask import scanner, chunker, embedder, store
 
-from devask import scanner
-from devask import chunker
 
 app = typer.Typer()
 console = Console()
-
 
 @app.command()
 def index(path: str = "."):
@@ -19,9 +17,20 @@ def index(path: str = "."):
     chunks = chunker.chunk_files(files)
     console.print(f"[green]{len(chunks)} chunks bane.[/green]")
 
-    # pehli 10 files dikhao
-    for f in files[:10]:
-        console.print(f"  [cyan]{f['path']}[/cyan] — {len(f['content'])} chars")
+    with console.status("[dim]Embeddings ban rahe...[/dim]", spinner="dots"):
+        texts = [c["content"] for c in chunks]
+        vectors = embedder.embed_texts(texts)
+
+    store.save_index(chunks, vectors, path)
+    console.print(f"[green]Index saved.[/green] [dim]({store.INDEX_FILE})[/dim]")
+
+
+
+@app.command()
+def ask(question: str):
+    """Codebase se sawaal poocho."""
+    console.print(f"[dim]Sawaal: {question}[/dim]")
+    console.print("[yellow]Abhi banaya nahi — agla step.[/yellow]")
 
 
 if __name__ == "__main__":
