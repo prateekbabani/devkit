@@ -2,6 +2,7 @@ import typer
 from rich.console import Console
 
 from devask import scanner
+from devask.devask import chunker
 
 app = typer.Typer()
 console = Console()
@@ -13,8 +14,10 @@ def index(path: str = "."):
     console.print(f"[dim]Scanning {path}...[/dim]")
 
     files = scanner.scan_repo(path)
+    console.print(f"[green]{len(files)} files mili.[/green]")
 
-    console.print(f"[green]{len(files)} files mili.[/green]\n")
+    chunks = chunker.chunk_files(files)
+    console.print(f"[green]{len(chunks)} chunks bane.[/green]")
 
     # pehli 10 files dikhao
     for f in files[:10]:
