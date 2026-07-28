@@ -27,3 +27,22 @@ def get_commits(repo_path: str = ".") -> list[dict]:
             })
 
     return commits
+
+def get_changed_files(repo_path: str = ".") -> list[str]:
+    """Get every file that was changed across all commits."""
+    result = subprocess.run(
+        ["git", "-C", repo_path, "log", "--name-only", "--pretty=format:"],
+        capture_output=True,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        return []
+
+    files = []
+    for line in result.stdout.splitlines():
+        clean_line = line.strip()
+        if clean_line != "":          # skip empty lines
+            files.append(clean_line)
+
+    return files

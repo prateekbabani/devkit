@@ -16,3 +16,8 @@ def date_range(commits: list[dict]) -> tuple[str, str]:
     dates = sorted(c["date"] for c in commits)
     return dates[0], dates[-1]
 
+def file_hotspots(files: list[str]) -> list[tuple[str, int]]:
+    """Count how many times each file was changed."""
+    counter = Counter(files)
+    return counter.most_common()
+

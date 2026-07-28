@@ -41,6 +41,18 @@ def show(path: str = "."):
     for month, count in months:
         console.print(f"  [dim]{month}[/dim] [magenta]{bar(count, max_month)}[/magenta] {count}")
 
+    # --- File hotspots ---
+    console.print("\n[bold cyan]File Hotspots[/bold cyan]")
+
+    changed_files = git_log.get_changed_files(path)
+    hotspots = stats.file_hotspots(changed_files)
+
+    if hotspots:
+        top_count = hotspots[0][1]  # sabse zyada badli file ka count
+        for filepath, count in hotspots[:5]:
+            file_bar = bar(count, top_count)
+            console.print(f"  {filepath:<40} [yellow]{file_bar}[/yellow] {count}")
+
 
 if __name__ == "__main__":
     app()
