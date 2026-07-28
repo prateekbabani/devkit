@@ -1,0 +1,16 @@
+[project]
+name = "gitstory"
+version = "0.1.0"
+description = "Visualize any git repo's history in your terminal"
+requires-python = ">=3.10"
+dependencies = [
+    "typer",
+    "rich",
+]
+
+[project.scripts]
+gitstory = "gitstory.main:app"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
