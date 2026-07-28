@@ -1,6 +1,6 @@
 import typer
 from rich.console import Console
-from devask import scanner, chunker, embedder, store
+from devask import scanner, chunker, embedder, store, ai   # ai add
 
 
 app = typer.Typer()
@@ -29,8 +29,20 @@ def index(path: str = "."):
 @app.command()
 def ask(question: str):
     """Codebase se sawaal poocho."""
-    console.print(f"[dim]Sawaal: {question}[/dim]")
-    console.print("[yellow]Abhi banaya nahi — agla step.[/yellow]")
+    index = store.load_index()
+
+    if index is None:
+        console.print("[yellow]Koi index nahi mila. Pehle `devask index` chala.[/yellow]")
+        raise typer.Exit()
+
+    with console.status("[dim]Dhoondh raha hoon...[/dim]", spinner="dots"):
+        results = ai.search(question, index)
+        response = ai.answer(question, results)
+
+    console.print(f"\n{response}\n")
+    console.print("[dim]Sources:[/dim]")
+    for r in results:
+        console.print(f"  [cyan]{r['path']}[/cyan] [dim](score: {r['score']:.3f})[/dim]")
 
 
 if __name__ == "__main__":
